@@ -3,5 +3,9 @@ Finish Time: -:-- - 7/16/2020
 
 break 11:55AM - 12:45PM
 break 1:11PM - 12:55AM
+break 2:08AM - 2:47AM
+break 3:15AM - 3:34AM
+break 6:20AM - 2:30PM
+break 2:39PM - 3:41PM
 
 Total Time Spent: -:--

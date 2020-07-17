@@ -1,0 +1,206 @@
+html {
+	font-size: 16px;
+	box-sizing: border-box;
+}
+
+*,
+*::before,
+*:after {
+	box-sizing: inherit;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: linear-gradient(45deg, #42275a, #734b6d) no-repeat center center
+		fixed;
+	background-size: cover;
+	font-family: "Fredoka One", cursive;
+}
+
+header h1 {
+	font-size: 4rem;
+	text-align: center;
+	font-family: "Pacifico", cursive;
+	color: white;
+	text-align: center;
+	text-shadow: 0 4px 5px #333;
+	margin: 1rem;
+}
+
+header nav {
+	padding: 1rem;
+	margin-bottom: 2rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1rem;
+}
+
+nav a {
+	padding: 1rem;
+	margin: 0 1rem;
+	background: #fff;
+	border-radius: 1.5rem;
+	text-decoration: none;
+	text-transform: uppercase;
+	color: #000;
+	box-shadow: 0 4px 10px #333;
+}
+
+nav a:visited {
+	text-decoration: none;
+	color: #000;
+}
+
+main h2 {
+	color: #fff;
+	font-size: 3rem;
+	letter-spacing: 0.3rem;
+	text-transform: uppercase;
+	text-align: center;
+	margin: 5rem 0;
+}
+
+.hide {
+	display: none;
+}
+
+.navigation {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 5rem;
+}
+
+.btn {
+	font-size: 2rem;
+	padding: 1rem;
+	margin: 0.5rem;
+	background: #fff;
+	text-decoration: none;
+	text-transform: uppercase;
+	color: #000;
+	border: none;
+	transition: all 0.5s;
+	outline: none;
+}
+
+.btn:hover {
+	box-shadow: 0 4px 10px #333;
+	text-shadow: 0 2px 20px #86026c;
+	cursor: pointer;
+}
+
+.nextBtn {
+	border-radius: 0rem 2rem 1rem 0rem;
+	margin-left: 0;
+}
+
+.nextBtn:hover {
+	border-radius: 0rem 2rem 2rem 0rem;
+}
+
+.backBtn {
+	margin-right: 0;
+	border-radius: 1rem 0rem 0rem 2rem;
+}
+
+.backBtn:hover {
+	border-radius: 2rem 0rem 0rem 2rem;
+}
+
+.meme-wrapper {
+	position: relative;
+	width: 500px;
+	height: 500px;
+}
+
+.meme-img {
+	width: 100%;
+	box-shadow: 0 4px 10px #333;
+}
+
+.meme-top-text {
+	position: absolute;
+	top: 3rem;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 3rem;
+	font-family: impact;
+	text-transform: uppercase;
+	color: white;
+	letter-spacing: 1px;
+	text-shadow: 0 2px 10px #333;
+	-webkit-text-stroke: 1px black;
+}
+
+.meme-bottom-text {
+	position: absolute;
+	bottom: 0.1rem;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 3rem;
+	font-family: impact;
+	text-transform: uppercase;
+	color: white;
+	letter-spacing: 1px;
+	-webkit-text-stroke: 1px black;
+}
+
+.memeTextStyle {
+	font-size: 3rem;
+	font-family: impact;
+	text-transform: uppercase;
+	color: white;
+	-webkit-text-stroke: 1px black;
+}
+
+section {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.stockImg {
+	max-width: 300px;
+	cursor: pointer;
+	margin: 2rem;
+	border-radius: 2rem;
+	box-shadow: 0 4px 20px #000;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+}
+
+form label {
+	font-size: 2rem;
+	color: #fff;
+	margin-bottom: 1rem;
+}
+
+form input {
+	border: none;
+	padding: 1rem;
+	border-radius: 1.5rem;
+	font-size: 1.5rem;
+	box-shadow: 0 4px 10px #222;
+	outline: none;
+}
+
+@media screen and (min-width: 500px) {
+	.stockImg {
+		max-width: 500px;
+	}
+
+	form input {
+		width: 70%;
+	}
+}
