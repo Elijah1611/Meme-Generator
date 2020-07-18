@@ -10,8 +10,8 @@ let bottomText = { text: "", size: "3rem" };
 
 const form = select("form");
 const image = select(".stockImg");
-const topTextLabel = select(".memeTopText");
-const bottomTextLabel = select(".memeBottomText");
+const topTextLabel = select(".memePreviewTopText");
+const bottomTextLabel = select(".memePreviewBottomText");
 
 const localMemes = JSON.parse(localStorage.getItem("memes"));
 const allMemesHeading = select("main h2").innerText;
@@ -40,9 +40,11 @@ function allMemes() {
 			buildMemeImage(meme.id, meme.photo, meme.top, meme.bottom);
 		}
 	}
+
 	// Delete memes
 	section.addEventListener("click", e => {
 		if (
+			e.target.tagName === "BUTTON" &&
 			e.target.parentElement.tagName === "DIV" &&
 			e.target.parentElement.className === "memePreview"
 		) {
@@ -50,13 +52,24 @@ function allMemes() {
 				m => m.id !== e.target.parentElement.id,
 			);
 			localStorage.setItem("memes", JSON.stringify(newMemeSet));
+
 			e.target.parentElement.remove();
+
+			const notification = create("div");
+			notification.classList.add("notification");
+			notification.innerText = "Removed!";
+			select("body").append(notification);
+			setTimeout(() => {
+				select(".notification").remove();
+			}, 6000);
 		}
 	});
 }
 
 function buildMemeImage(id, photo, top, bottom) {
 	const wrapper = create("div");
+	const textWrapper = create("div");
+	textWrapper.classList.add("allMemesTextWrapper");
 	wrapper.classList.add("memePreview");
 	wrapper.setAttribute("id", id);
 
@@ -65,22 +78,23 @@ function buildMemeImage(id, photo, top, bottom) {
 	image.setAttribute("src", photo);
 
 	const topMemeText = create("span");
-	topMemeText.classList.add("memeTopText");
+	topMemeText.classList.add("memePreviewTopText");
 
 	const bottomMemeText = create("span");
-	bottomMemeText.classList.add("memeBottomText");
+	bottomMemeText.classList.add("memePreviewBottomText");
 
 	const deleteBtn = create("button");
 	deleteBtn.classList.add("deleteBtn");
 	deleteBtn.innerText = "❌";
 
 	topMemeText.innerText = top.text;
-	topMemeText.style.fontSize = top.size;
+	topMemeText.style.fontSize = `${top.size}rem`;
 	bottomMemeText.innerText = bottom.text;
-	bottomMemeText.style.fontSize = top.size;
+	bottomMemeText.style.fontSize = `${bottom.size}rem`;
 
-	wrapper.append(topMemeText);
-	wrapper.append(bottomMemeText);
+	textWrapper.append(topMemeText);
+	textWrapper.append(bottomMemeText);
+	wrapper.append(textWrapper);
 	wrapper.append(image);
 	wrapper.append(deleteBtn);
 	select("section").append(wrapper);
@@ -117,7 +131,8 @@ function makeMeme() {
 		}
 	});
 
-	image.addEventListener("click", e => {
+	const memePreviewOverlay = select(".memePreview div");
+	memePreviewOverlay.addEventListener("click", e => {
 		image.setAttribute("src", memePhoto);
 	});
 
