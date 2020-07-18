@@ -1,11 +1,27 @@
 Start Time: 9:00AM - 7/16/2020
-Finish Time: -:-- - 7/16/2020
+Finish Time: 1:06AM - 7/18/2020
 
+Breaks:
 break 11:55AM - 12:45PM
 break 1:11PM - 12:55AM
 break 2:08AM - 2:47AM
 break 3:15AM - 3:34AM
 break 6:20AM - 2:30PM
 break 2:39PM - 3:41PM
+break 5:55PM - 10:37PM
+break 11:15PM - 11:47PM
 
-Total Time Spent: -:--
+Sessions:
+2h 55min
+1h 13min
+0h 28min
+2h 46min
+0h 09min
+2h 14min
+0h 38min
+1h 19min
+----------
+11h 42min
+
+Total Time Spent: 11h 42min
+

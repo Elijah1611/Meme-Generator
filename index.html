@@ -20,11 +20,64 @@
 		</header>
 		<main>
 			<h2>Make a meme!</h2>
-			<section></section>
-			<div class="navigation">
-				<button class="backBtn btn">Back</button>
-				<button class="nextBtn btn">Next</button>
-			</div>
+			<section>
+				<div class="memePreview">
+					<span class="memeTopText"></span>
+					<span class="memeBottomText"></span>
+					<img
+						class="stockImg"
+						src="https://cobblestone.me/wp-content/plugins/photonic/include/images/placeholder.png"
+					/>
+					<span class="hint">Click to refresh image</span>
+				</div>
+
+				<form>
+					<label id="photoURL">Photo URL</label>
+					<input
+						class="memePhotoUrl"
+						type="text"
+						name="photoURL"
+						placeholder="Image URL"
+						value="https://media.wired.com/photos/5cdefb92b86e041493d389df/1:1/w_988,h_988,c_limit/Culture-Grumpy-Cat-487386121.jpg"
+					/>
+
+					<label id="topText">Top Meme Text</label>
+					<div>
+						<input
+							class="topMemeText"
+							type="text"
+							name="topText"
+							placeholder="Top Text"
+						/>
+						<input
+							class="textSize"
+							type="number"
+							name="topText"
+							value="3"
+							step="0.5"
+						/>
+					</div>
+
+					<label id="bottomText">Bottom Meme Text</label>
+					<div>
+						<input
+							class="bottomMemeText"
+							type="text"
+							name="bottomText"
+							placeholder="Bottom Text"
+						/>
+						<input
+							class="textSize"
+							type="number"
+							name="bottomText"
+							value="3"
+							step="0.5"
+						/>
+					</div>
+
+					<input class="saveBtn" type="submit" value="Save" />
+				</form>
+			</section>
 		</main>
 
 		<script src="app.js"></script>

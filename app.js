@@ -1,190 +1,149 @@
 // Disable for intellisense
-// const select = selector => document.querySelector(selector);
-// const selectAll = selector => document.querySelectorAll(selector);
-// const create = selector => document.createElement(selector);
-const body = document.querySelector("body");
-const main = document.querySelector("main");
-const nextBtn = document.querySelector(".nextBtn");
-const backBtn = document.querySelector(".backBtn");
-const pages = [start, addPhoto, addTopText, addBottomText, results];
-let page = 0;
-
-// localStorage.setItem(
-// 	"memes",
-// 	JSON.stringify([
-// 		{
-// 			photo:
-// 				"https://karlaspetcare.com/wp-content/uploads/2019/03/Understanding-Your-Cats-Body-Language.png",
-// 			topText: "My First Meme",
-// 			bottomText: "Hello World",
-// 		},
-// 	]),
-// );
-
-const localMemes = JSON.parse(localStorage.getItem("memes"));
-
-const allMemesHeading = document.querySelector("h2").innerText;
-
-if (allMemesHeading === "All Memes") {
-	if (localMemes) {
-		// loop
-		for (const meme of localMemes) {
-			buildMemeImage(meme.photo, meme.topText, meme.bottomText);
-		}
-	}
-}
-
-function inputMaker(inputConfig) {
-	const form = document.createElement("form");
-	const label = document.createElement("label");
-	label.innerText = inputConfig.label;
-	label.setAttribute("id", inputConfig.id);
-	const photoInput = document.createElement("input");
-	photoInput.setAttribute("type", inputConfig.type);
-	photoInput.setAttribute("name", inputConfig.id);
-	photoInput.setAttribute("placeholder", inputConfig.placeholder);
-
-	form.append(label);
-	form.append(photoInput);
-	document.querySelector("section").append(form);
-}
+const select = selector => document.querySelector(selector);
+const selectAll = selector => document.querySelectorAll(selector);
+const create = selector => document.createElement(selector);
 
 let memePhoto =
 	"https://cobblestone.me/wp-content/plugins/photonic/include/images/placeholder.png";
-let topText;
-let bottomText;
+let topText = { text: "", size: "3rem" };
+let bottomText = { text: "", size: "3rem" };
 
-function addPhoto() {
-	const inputConfig = {
-		id: "photoURL",
-		type: "text",
-		placeholder: "Image URL",
-		label: "Photo Label",
-	};
-	inputMaker(inputConfig);
+const form = select("form");
+const image = select(".stockImg");
+const topTextLabel = select(".memeTopText");
+const bottomTextLabel = select(".memeBottomText");
 
-	// Listen to input for image
-	const form = document.querySelector("form");
-	const image = document.createElement("img");
-	image.classList.add("stockImg");
+const localMemes = JSON.parse(localStorage.getItem("memes"));
+const allMemesHeading = select("main h2").innerText;
+const makeAMemeHeading = select("main h2").innerText;
 
-	form.addEventListener("input", e => {
-		memePhoto = e.target.value;
-		console.log(e.target.value);
-	});
+if (!localStorage.getItem("memes")) {
+	localStorage.setItem(
+		"memes",
+		JSON.stringify([
+			{
+				id: "1",
+				photo:
+					"https://karlaspetcare.com/wp-content/uploads/2019/03/Understanding-Your-Cats-Body-Language.png",
+				top: { text: "My First Meme", size: "3rem" },
+				bottom: { text: "You Better Like It!", size: "3rem" },
+			},
+		]),
+	);
+}
 
-	// Set initial image
-	image.setAttribute("src", memePhoto);
-	document.querySelector("section").insertBefore(image, form);
+function allMemes() {
+	const section = select("section");
 
-	image.addEventListener("click", e => {
-		document.querySelector(".stockImg").setAttribute("src", memePhoto);
+	if (localMemes) {
+		for (const meme of localMemes) {
+			buildMemeImage(meme.id, meme.photo, meme.top, meme.bottom);
+		}
+	}
+	// Delete memes
+	section.addEventListener("click", e => {
+		if (
+			e.target.parentElement.tagName === "DIV" &&
+			e.target.parentElement.className === "memePreview"
+		) {
+			const newMemeSet = localMemes.filter(
+				m => m.id !== e.target.parentElement.id,
+			);
+			localStorage.setItem("memes", JSON.stringify(newMemeSet));
+			e.target.parentElement.remove();
+		}
 	});
 }
 
-function addTopText() {
-	const inputConfig = {
-		id: "topText",
-		type: "text",
-		placeholder: "Top Text",
-		label: "Top Text Label",
-	};
+function buildMemeImage(id, photo, top, bottom) {
+	const wrapper = create("div");
+	wrapper.classList.add("memePreview");
+	wrapper.setAttribute("id", id);
 
-	inputMaker(inputConfig);
-	topText = inputConfig.placeholder;
-
-	// Listen to input for top text
-	const form = document.querySelector("form");
-
-	form.addEventListener("input", e => {
-		e.preventDefault();
-		topText = e.target.value;
-		const formLabel = document.querySelector("form label");
-		formLabel.classList.add("memeTextStyle");
-		formLabel.innerText = topText.toUpperCase();
-	});
-}
-
-function addBottomText() {
-	const inputConfig = {
-		id: "bottomText",
-		type: "text",
-		placeholder: "Bottom Text",
-		label: "Bottom Text Label",
-	};
-
-	inputMaker(inputConfig);
-	bottomText = inputConfig.placeholder;
-
-	// Listen to input for bottom text
-	const form = document.querySelector("form");
-
-	form.addEventListener("input", e => {
-		bottomText = e.target.value;
-		const formLabel = document.querySelector("form label");
-		formLabel.classList.add("memeTextStyle");
-		formLabel.innerText = bottomText.toUpperCase();
-	});
-}
-
-function buildMemeImage(photo, textTop, textBottom) {
-	const wrapper = document.createElement("div");
-	wrapper.classList.add("meme-wrapper");
-
-	const image = document.createElement("img");
-	image.classList.add("meme-img");
+	const image = create("img");
+	image.classList.add("memeImg");
 	image.setAttribute("src", photo);
 
-	const topMemeText = document.createElement("p");
-	topMemeText.classList.add("meme-top-text");
+	const topMemeText = create("span");
+	topMemeText.classList.add("memeTopText");
 
-	const bottomMemeText = document.createElement("p");
-	bottomMemeText.classList.add("meme-bottom-text");
+	const bottomMemeText = create("span");
+	bottomMemeText.classList.add("memeBottomText");
 
-	topMemeText.innerText = textTop;
-	bottomMemeText.innerText = textBottom;
+	const deleteBtn = create("button");
+	deleteBtn.classList.add("deleteBtn");
+	deleteBtn.innerText = "❌";
+
+	topMemeText.innerText = top.text;
+	topMemeText.style.fontSize = top.size;
+	bottomMemeText.innerText = bottom.text;
+	bottomMemeText.style.fontSize = top.size;
 
 	wrapper.append(topMemeText);
 	wrapper.append(bottomMemeText);
 	wrapper.append(image);
-	document.querySelector("section").append(wrapper);
+	wrapper.append(deleteBtn);
+	select("section").append(wrapper);
 }
 
-function results() {
-	buildMemeImage(memePhoto, topText, bottomText);
+function makeMeme() {
+	form.addEventListener("input", e => {
+		if (e.target.name === "photoURL") {
+			memePhoto = e.target.value;
+		}
 
-	backBtn.remove();
-	nextBtn.remove();
+		if (e.target.name === "topText") {
+			if (e.target.type === "number") {
+				topText.size = e.target.value;
+				topTextLabel.style.fontSize = `${topText.size}rem`;
+			}
+			if (e.target.type === "text") {
+				topText.text = e.target.value;
+				topTextLabel.classList.add("memeTextStyle");
+				topTextLabel.innerText = topText.text.toUpperCase();
+			}
+		}
 
-	const newMeme = { photo: memePhoto, topText, bottomText };
+		if (e.target.name === "bottomText") {
+			if (e.target.type === "number") {
+				bottomText.size = e.target.value;
+				bottomTextLabel.style.fontSize = `${bottomText.size}rem`;
+			}
+			if (e.target.type === "text") {
+				bottomText.text = e.target.value;
+				bottomTextLabel.classList.add("memeTextStyle");
+				bottomTextLabel.innerText = bottomText.text.toUpperCase();
+			}
+		}
+	});
+
+	image.addEventListener("click", e => {
+		image.setAttribute("src", memePhoto);
+	});
+
+	form.addEventListener("submit", e => {
+		e.preventDefault();
+		save();
+		const photoUrl = select(".memePhotoUrl");
+		const topMemeText = select(".topMemeText");
+		const bottomMemeText = select(".bottomMemeText");
+		photoUrl.value = "";
+		topMemeText.value = "";
+		bottomMemeText.value = "";
+	});
+}
+
+function save() {
+	const idGen = Math.floor(Math.random() * 16777216).toString(16);
+	const newMeme = {
+		id: idGen,
+		photo: memePhoto,
+		top: topText,
+		bottom: bottomText,
+	};
 	localMemes.push(newMeme);
 	localStorage.setItem("memes", JSON.stringify(localMemes));
 }
 
-function pageHandler(btnType) {
-	if (btnType === "next" && page < pages.length - 1) page += 1;
-	if (btnType === "back" && page > 0) page -= 1;
-
-	console.log(page);
-
-	pages[page]();
-}
-
-function start() {
-	console.log("start");
-}
-
-main.addEventListener("click", e => {
-	if (e.target.tagName === "BUTTON") {
-		e.target.parentElement.parentElement.children[1].remove();
-
-		const section = document.createElement("section");
-		main.insertBefore(section, document.querySelector(".navigation"));
-
-		if (e.target.classList.contains("nextBtn")) pageHandler("next");
-
-		if (e.target.classList.contains("backBtn")) pageHandler("back");
-	}
-});
-
-start();
+if (allMemesHeading === "ALL MEMES") allMemes();
+if (makeAMemeHeading === "MAKE A MEME!") makeMeme();
