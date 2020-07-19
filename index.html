@@ -29,9 +29,9 @@
 					<img
 						class="stockImg"
 						src="https://cobblestone.me/wp-content/plugins/photonic/include/images/placeholder.png"
+						onerror="handleBrokenImage(this)"
 					/>
 				</div>
-				<span class="hint">Click to refresh image</span>
 
 				<form>
 					<label id="photoURL">Photo URL</label>
@@ -40,7 +40,6 @@
 						type="text"
 						name="photoURL"
 						placeholder="Image URL"
-						value="https://media.wired.com/photos/5cdefb92b86e041493d389df/1:1/w_988,h_988,c_limit/Culture-Grumpy-Cat-487386121.jpg"
 					/>
 
 					<label id="topText">Top Meme Text</label>

@@ -24,7 +24,7 @@ if (!localStorage.getItem("memes")) {
 			{
 				id: "1",
 				photo:
-					"https://karlaspetcare.com/wp-content/uploads/2019/03/Understanding-Your-Cats-Body-Language.png",
+					"https://media.wired.com/photos/5cdefb92b86e041493d389df/1:1/w_988,h_988,c_limit/Culture-Grumpy-Cat-487386121.jpg",
 				top: { text: "My First Meme", size: "3rem" },
 				bottom: { text: "You Better Like It!", size: "3rem" },
 			},
@@ -32,10 +32,19 @@ if (!localStorage.getItem("memes")) {
 	);
 }
 
-function allMemes() {
+function showNoMemes() {
+	const noMemes = create("h3");
+	noMemes.innerText = "No Memes 😭".toUpperCase();
 	const section = select("section");
 
+	section.append(noMemes);
+}
+
+function allMemes() {
+	const section = select("section");
 	if (localMemes) {
+		if (localMemes.length === 0) showNoMemes();
+
 		for (const meme of localMemes) {
 			buildMemeImage(meme.id, meme.photo, meme.top, meme.bottom);
 		}
@@ -62,6 +71,9 @@ function allMemes() {
 			setTimeout(() => {
 				select(".notification").remove();
 			}, 6000);
+
+			const allMemesFromLocal = JSON.parse(localStorage.getItem("memes"));
+			if (allMemesFromLocal.length === 0) showNoMemes();
 		}
 	});
 }
@@ -104,6 +116,7 @@ function makeMeme() {
 	form.addEventListener("input", e => {
 		if (e.target.name === "photoURL") {
 			memePhoto = e.target.value;
+			image.setAttribute("src", memePhoto);
 		}
 
 		if (e.target.name === "topText") {
@@ -131,11 +144,6 @@ function makeMeme() {
 		}
 	});
 
-	const memePreviewOverlay = select(".memePreview div");
-	memePreviewOverlay.addEventListener("click", e => {
-		image.setAttribute("src", memePhoto);
-	});
-
 	form.addEventListener("submit", e => {
 		e.preventDefault();
 		save();
@@ -146,6 +154,11 @@ function makeMeme() {
 		topMemeText.value = "";
 		bottomMemeText.value = "";
 	});
+}
+
+function handleBrokenImage(img) {
+	img.src =
+		"https://cobblestone.me/wp-content/plugins/photonic/include/images/placeholder.png";
 }
 
 function save() {
