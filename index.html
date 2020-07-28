@@ -14,8 +14,8 @@
 		<header>
 			<h1>MemeME</h1>
 			<nav>
-				<a href="index.html">New Meme</a>
-				<a href="localMemes.html">All Meme</a>
+				<a id="newMemeBtn" href="index.html">New Meme</a>
+				<a id="allMemeBtn" href="localMemes.html">All Meme</a>
 			</nav>
 		</header>
 		<main>
@@ -27,7 +27,7 @@
 						<span class="memePreviewBottomText"></span>
 					</div>
 					<img
-						class="stockImg"
+						class="memePreviewPhoto"
 						src="https://cobblestone.me/wp-content/plugins/photonic/include/images/placeholder.png"
 						onerror="handleBrokenImage(this)"
 					/>
@@ -36,6 +36,7 @@
 				<form>
 					<label id="photoURL">Photo URL</label>
 					<input
+						id="photoURLInput"
 						class="memePhotoUrl"
 						type="text"
 						name="photoURL"
