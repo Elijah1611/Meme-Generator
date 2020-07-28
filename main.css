@@ -17,21 +17,7 @@ body {
 	font-family: "Fredoka One", cursive;
 }
 
-section {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-section h3 {
-	color: #fff;
-	height: 500px;
-	font-size: 2rem;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
+/* HEADER */
 
 header h1 {
 	font-size: 4rem;
@@ -74,6 +60,8 @@ nav a:hover {
 	color: #fff;
 }
 
+/* MAIN SECTION */
+
 main h2 {
 	color: #fff;
 	font-size: 3rem;
@@ -83,6 +71,26 @@ main h2 {
 	margin: 2rem 0;
 	width: 100%;
 }
+
+/* NEW MEME SECTION */
+
+.newMemeSection {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.newMemeSection h3 {
+	color: #fff;
+	height: 500px;
+	font-size: 2rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* FORM */
 
 form {
 	display: flex;
@@ -115,16 +123,7 @@ form div {
 	align-items: center;
 }
 
-.hint {
-	color: rgb(255, 255, 255, 0.3);
-}
-
-.memePreviewPhoto {
-	width: 100%;
-	cursor: pointer;
-	border-radius: 2rem;
-	box-shadow: 0 4px 20px #000;
-}
+/* MEME PREVIEW */
 
 .memePreview {
 	position: relative;
@@ -147,12 +146,6 @@ form div {
 	cursor: pointer;
 }
 
-.memeImg {
-	width: 100%;
-	box-shadow: 0 4px 10px #333;
-	border-radius: 1rem;
-}
-
 .memePreviewTopText {
 	font-family: impact;
 	text-transform: uppercase;
@@ -171,18 +164,18 @@ form div {
 	-webkit-text-stroke: 1px black;
 }
 
-.memeTextStyle {
-	font-size: 3rem;
-	font-family: impact;
-	text-transform: uppercase;
-	color: white;
-	-webkit-text-stroke: 1px black;
+.memePreviewPhoto {
+	width: 100%;
+	cursor: pointer;
+	border-radius: 2rem;
+	box-shadow: 0 4px 20px #000;
 }
 
-.topMemeText {
+.memeTopText {
 	border-radius: 2rem 0rem 0rem 2rem;
 }
-.bottomMemeText {
+
+.memeBottomText {
 	border-radius: 2rem 0rem 0rem 2rem;
 }
 
@@ -201,6 +194,22 @@ form div {
 	background: #734b6d;
 	color: #fff;
 	box-shadow: 0 4px 20px #111;
+}
+
+/* All Memes */
+
+.savedMemeDisplay {
+	width: 100%;
+	box-shadow: 0 4px 10px #333;
+	border-radius: 1rem;
+}
+
+.classicMemeTextStyle {
+	font-size: 3rem;
+	font-family: impact;
+	text-transform: uppercase;
+	color: white;
+	-webkit-text-stroke: 1px black;
 }
 
 .deleteBtn {
@@ -236,6 +245,10 @@ form div {
 	align-items: center;
 	transition: all 0.5s;
 	animation: notifi 6s;
+}
+
+.hidden {
+	display: none;
 }
 
 @keyframes notifi {

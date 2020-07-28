@@ -19,8 +19,10 @@
 			</nav>
 		</header>
 		<main>
-			<h2>Make a meme!</h2>
-			<section>
+			<h2 id="MakeMemeHeading">Make a meme!</h2>
+			<h2 id="AllMemesHeading" class="hidden">All Memes</h2>
+
+			<section class="newMemeSection">
 				<div class="memePreview">
 					<div>
 						<span class="memePreviewTopText"></span>
@@ -29,15 +31,14 @@
 					<img
 						class="memePreviewPhoto"
 						src="https://cobblestone.me/wp-content/plugins/photonic/include/images/placeholder.png"
-						onerror="handleBrokenImage(this)"
+						onerror="resetMemeImagePreview(this)"
 					/>
 				</div>
 
-				<form>
+				<form id="newMemeForm">
 					<label id="photoURL">Photo URL</label>
 					<input
-						id="photoURLInput"
-						class="memePhotoUrl"
+						class="memePhotoURL"
 						type="text"
 						name="photoURL"
 						placeholder="Image URL"
@@ -46,13 +47,13 @@
 					<label id="topText">Top Meme Text</label>
 					<div>
 						<input
-							class="topMemeText"
+							class="memeTopText"
 							type="text"
 							name="topText"
 							placeholder="Top Text"
 						/>
 						<input
-							class="textSize"
+							class="memeTopTextSize textSize"
 							type="number"
 							name="topText"
 							value="3"
@@ -63,13 +64,13 @@
 					<label id="bottomText">Bottom Meme Text</label>
 					<div>
 						<input
-							class="bottomMemeText"
+							class="memeBottomText"
 							type="text"
 							name="bottomText"
 							placeholder="Bottom Text"
 						/>
 						<input
-							class="textSize"
+							class="memeBottomTextSize textSize"
 							type="number"
 							name="bottomText"
 							value="3"
