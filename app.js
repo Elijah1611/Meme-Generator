@@ -15,7 +15,7 @@ const newMemeObj = {
 };
 
 // Local Storage Functionality
-function checkLocalStorageState() {
+function setInitialLocalStorageState() {
 	const allMemes = localStorage.getItem("memes");
 	if (!allMemes) {
 		localStorage.setItem("memes", JSON.stringify([]));
@@ -185,6 +185,11 @@ function buildMemeGalleryThumbnail(memeObj, parentEl = memeGallery) {
 function renderAllMemes() {
 	const allMemes = JSON.parse(localStorage.getItem("memes"));
 
+	if (allMemes.length === 0) {
+		displayNoMemesMessage();
+		return;
+	}
+
 	allMemes.forEach(meme => {
 		buildMemeGalleryThumbnail(meme);
 	});
@@ -197,6 +202,14 @@ function clearAllMemes() {
 function refreshAllMemes() {
 	clearAllMemes();
 	renderAllMemes();
+}
+
+function displayNoMemesMessage() {
+	const noMemes = create("h3");
+	noMemes.innerText = "No Memes 😭".toUpperCase();
+	noMemes.classList.add("noMemesMsg");
+
+	memeGallery.append(noMemes);
 }
 
 // Display Modal
@@ -265,7 +278,6 @@ function toggleDisplayModal() {
 // Delete Meme
 
 function activateDeleteMemes() {
-	console.log("delete active");
 	const deleteBtn = select(".deleteBtn");
 
 	deleteBtn.addEventListener("click", e => {
@@ -274,6 +286,8 @@ function activateDeleteMemes() {
 		deleteMemeInLocalStorage(meme.dataset.id);
 
 		refreshAllMemes();
+
+		showDeleteMessage();
 	});
 }
 
@@ -315,7 +329,7 @@ saveNewMemeBtn.addEventListener("click", e => {
 });
 
 (function main() {
-	checkLocalStorageState();
+	setInitialLocalStorageState();
 	renderAllMemes();
 	toggleDisplayModal();
 })();
