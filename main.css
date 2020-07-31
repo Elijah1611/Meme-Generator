@@ -248,18 +248,49 @@ form div {
 	-webkit-text-stroke: 1px black;
 }
 
-.deleteBtn {
+/* Display Modal */
+
+.displayModal {
+	width: 100%;
+	height: 100%;
 	position: absolute;
-	right: 0px;
-	top: 0px;
-	padding: 1rem 1.2rem;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column-reverse;
+	letter-spacing: 0.15rem;
+	background: rgb(66, 39, 90, 0.95);
+}
+
+.displayModal .memeGalleryImgWrapper {
+	width: 600px;
+}
+
+.displayModal .memeCreatedDate {
+	margin-top: 2rem;
 	color: #fff;
-	font-size: 1rem;
-	border-radius: 1rem;
+}
+
+.displayModal .deleteBtn {
+	background: linear-gradient(45deg, #ed213a, #93291e);
+	color: #fff;
+	padding: 1rem 1.2rem;
 	border: none;
+	border-radius: 1rem;
 	opacity: 0.5;
-	transition: all 0.5s;
+	font-size: 1rem;
+	text-transform: uppercase;
+	font-weight: 900;
+	letter-spacing: 0.15rem;
 	cursor: pointer;
+	transition: all 0.5s;
+	margin-top: 2rem;
+}
+
+.deleteBtn {
 }
 
 .deleteBtn:hover {

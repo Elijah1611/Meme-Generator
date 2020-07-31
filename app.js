@@ -9,8 +9,9 @@ const newMemeObj = {
 	id: Math.floor(Math.random() * 16777216).toString(16),
 	photo:
 		"https://cobblestone.me/wp-content/plugins/photonic/include/images/placeholder.png",
-	top: { text: "", size: "3rem" },
-	bottom: { text: "", size: "3rem" },
+	top: { text: "", size: 3 },
+	bottom: { text: "", size: 3 },
+	created: new Date(),
 };
 
 // Local Storage Functionality
@@ -25,6 +26,12 @@ function saveMemeToLocalStorage(newMeme) {
 	const allMemes = JSON.parse(localStorage.getItem("memes"));
 	allMemes.push(newMeme);
 	localStorage.setItem("memes", JSON.stringify(allMemes));
+}
+
+function deleteMemeInLocalStorage(id) {
+	const allMemes = JSON.parse(localStorage.getItem("memes"));
+	const modifiedMemeSet = allMemes.filter(m => m.id !== id);
+	localStorage.setItem("memes", JSON.stringify(modifiedMemeSet));
 }
 
 // Navigation Buttons
@@ -149,13 +156,13 @@ function buildMemeText(wrapper, memeObj) {
 	topText.classList.add("classicMemeTextStyle");
 
 	topText.innerText = memeObj.top.text;
-	topText.style.fontSize = memeObj.top.size / 2;
+	topText.style.fontSize = `${memeObj.top.size}rem`;
 
 	bottomText.classList.add("bottomText");
 	bottomText.classList.add("classicMemeTextStyle");
 
 	bottomText.innerText = memeObj.bottom.text;
-	bottomText.style.fontSize = memeObj.bottom.size / 2;
+	bottomText.style.fontSize = `${memeObj.bottom.size}rem`;
 
 	imgTextWrapper.append(topText);
 	imgTextWrapper.append(bottomText);
@@ -163,15 +170,16 @@ function buildMemeText(wrapper, memeObj) {
 	wrapper.append(imgTextWrapper);
 }
 
-function buildMemeGalleryThumbnail(memeObj) {
+function buildMemeGalleryThumbnail(memeObj, parentEl = memeGallery) {
 	const memeGalleryImgWrapper = create("div");
-	memeGalleryImgWrapper.id = memeObj.id;
+
+	memeGalleryImgWrapper.setAttribute("data-id", memeObj.id);
 	memeGalleryImgWrapper.classList.add("memeGalleryImgWrapper");
 
 	buildMemeText(memeGalleryImgWrapper, memeObj);
 	buildMemeImage(memeGalleryImgWrapper, memeObj.photo);
 
-	memeGallery.append(memeGalleryImgWrapper);
+	parentEl.append(memeGalleryImgWrapper);
 }
 
 function renderAllMemes() {
@@ -182,7 +190,94 @@ function renderAllMemes() {
 	});
 }
 
-// Notification
+function clearAllMemes() {
+	memeGallery.innerHTML = "";
+}
+
+function refreshAllMemes() {
+	clearAllMemes();
+	renderAllMemes();
+}
+
+// Display Modal
+
+function buildDateText(appendEl) {
+	const dateText = create("p");
+	dateText.classList.add("memeCreatedDate");
+	dateText.innerText = "Created: Unknown";
+	appendEl.append(dateText);
+}
+
+function handleMemeDate(date) {
+	const createdDateText = select(".memeCreatedDate");
+
+	if (date) {
+		createdDateText.innerText = `Created: ${new Date(date).toDateString()}`;
+	}
+}
+
+function showMemeInModal(wrapperElement) {
+	const displayModal = select(".displayModal");
+
+	const memeId = wrapperElement.dataset.id;
+
+	const allMemeObj = JSON.parse(localStorage.getItem("memes"));
+
+	const clickMemeObj = allMemeObj.find(meme => meme.id === memeId);
+
+	buildDateText(displayModal);
+
+	buildMemeGalleryThumbnail(clickMemeObj, displayModal);
+
+	handleMemeDate(clickMemeObj.created);
+
+	displayModal.classList.remove("hidden");
+}
+
+function toggleDisplayModal() {
+	memeGallery.addEventListener("click", e => {
+		let wrapperElement = null;
+		const containsClass = c => e.target.classList.contains(c);
+
+		if (containsClass("classicMemeTextStyle")) {
+			wrapperElement = e.target.parentElement.parentElement;
+			showMemeInModal(wrapperElement);
+		} else if (containsClass("memeGalleryImgText")) {
+			wrapperElement = e.target.parentElement;
+			showMemeInModal(wrapperElement);
+		}
+	});
+
+	const displayModal = select(".displayModal");
+
+	displayModal.addEventListener("click", e => {
+		const date = select(".displayModal .memeCreatedDate");
+		const meme = select(".displayModal .memeGalleryImgWrapper");
+
+		displayModal.classList.add("hidden");
+		meme.remove();
+		date.remove();
+	});
+
+	activateDeleteMemes();
+}
+
+// Delete Meme
+
+function activateDeleteMemes() {
+	console.log("delete active");
+	const deleteBtn = select(".deleteBtn");
+
+	deleteBtn.addEventListener("click", e => {
+		const meme = select(".displayModal .memeGalleryImgWrapper");
+
+		deleteMemeInLocalStorage(meme.dataset.id);
+
+		refreshAllMemes();
+	});
+}
+
+// Notifications
 
 const notificationBubble = select(".notification");
 const notifySaveText = select(".notifySaveText");
@@ -208,18 +303,19 @@ function showDeleteMessage() {
 	}, 6000);
 }
 
-// Save Submit
+// Save Submit on Make A Meme Page
 
 const saveNewMemeBtn = select(".saveBtn");
 
 saveNewMemeBtn.addEventListener("click", e => {
 	saveMemeToLocalStorage(newMemeObj);
 	resetMakeNewMemeSection();
+	refreshAllMemes();
 	showSavedMessage();
 });
 
 (function main() {
-	console.log("running...");
 	checkLocalStorageState();
 	renderAllMemes();
+	toggleDisplayModal();
 })();
