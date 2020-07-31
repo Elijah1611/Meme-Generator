@@ -27,6 +27,35 @@ function saveMemeToLocalStorage(newMeme) {
 	localStorage.setItem("memes", JSON.stringify(allMemes));
 }
 
+// Navigation Buttons
+
+const newMemeBtn = select("#newMemeBtn");
+const allMemesBtn = select("#allMemesBtn");
+const newMemeSection = select(".newMemeSection");
+const allMemeSection = select(".allMemeSection");
+const MakeMemeHeading = select("#MakeMemeHeading");
+const AllMemesHeading = select("#AllMemesHeading");
+
+newMemeBtn.addEventListener("click", e => {
+	document.title = "Make A Meme | MemeME";
+
+	newMemeSection.classList.remove("hidden");
+	allMemeSection.classList.add("hidden");
+
+	MakeMemeHeading.classList.remove("hidden");
+	AllMemesHeading.classList.add("hidden");
+});
+
+allMemesBtn.addEventListener("click", e => {
+	document.title = "All Memes | MemeME";
+
+	allMemeSection.classList.remove("hidden");
+	newMemeSection.classList.add("hidden");
+
+	AllMemesHeading.classList.remove("hidden");
+	MakeMemeHeading.classList.add("hidden");
+});
+
 // New Meme Form
 
 const newMemeForm = select("#newMemeForm");
@@ -74,7 +103,6 @@ const memeTopTextSizeInput = select(".memeTopTextSize");
 
 memeTopTextInput.addEventListener("input", e => {
 	newMemeObj.top.text = e.target.value;
-	memeTopTextPreview.classList.add("classicMemeTextStyle");
 	memeTopTextPreview.innerText = newMemeObj.top.text.toUpperCase();
 });
 
@@ -90,7 +118,6 @@ const memeBottomTextSizeInput = select(".memeBottomTextSize");
 
 memeBottomTextInput.addEventListener("input", e => {
 	newMemeObj.bottom.text = e.target.value;
-	memeBottomTextPreview.classList.add("classicMemeTextStyle");
 	memeBottomTextPreview.innerText = newMemeObj.bottom.text.toUpperCase();
 });
 
@@ -99,17 +126,100 @@ memeBottomTextSizeInput.addEventListener("input", e => {
 	memeBottomTextPreview.style.fontSize = `${newMemeObj.bottom.size}rem`;
 });
 
+// Render All Memes
+const memeGallery = select(".memeGallery");
+
+function buildMemeImage(wrapper, photo) {
+	const image = create("img");
+	image.classList.add("memeImg");
+
+	image.src = photo;
+
+	wrapper.append(image);
+}
+
+function buildMemeText(wrapper, memeObj) {
+	const imgTextWrapper = create("div");
+	imgTextWrapper.classList.add("memeGalleryImgText");
+
+	const topText = create("span");
+	const bottomText = create("span");
+
+	topText.classList.add("topText");
+	topText.classList.add("classicMemeTextStyle");
+
+	topText.innerText = memeObj.top.text;
+	topText.style.fontSize = memeObj.top.size / 2;
+
+	bottomText.classList.add("bottomText");
+	bottomText.classList.add("classicMemeTextStyle");
+
+	bottomText.innerText = memeObj.bottom.text;
+	bottomText.style.fontSize = memeObj.bottom.size / 2;
+
+	imgTextWrapper.append(topText);
+	imgTextWrapper.append(bottomText);
+
+	wrapper.append(imgTextWrapper);
+}
+
+function buildMemeGalleryThumbnail(memeObj) {
+	const memeGalleryImgWrapper = create("div");
+	memeGalleryImgWrapper.id = memeObj.id;
+	memeGalleryImgWrapper.classList.add("memeGalleryImgWrapper");
+
+	buildMemeText(memeGalleryImgWrapper, memeObj);
+	buildMemeImage(memeGalleryImgWrapper, memeObj.photo);
+
+	memeGallery.append(memeGalleryImgWrapper);
+}
+
+function renderAllMemes() {
+	const allMemes = JSON.parse(localStorage.getItem("memes"));
+
+	allMemes.forEach(meme => {
+		buildMemeGalleryThumbnail(meme);
+	});
+}
+
+// Notification
+
+const notificationBubble = select(".notification");
+const notifySaveText = select(".notifySaveText");
+const notifyDeleteText = select(".notifyDeleteText");
+
+function showSavedMessage() {
+	notificationBubble.classList.remove("hidden");
+	notifySaveText.classList.remove("hidden");
+
+	setTimeout(() => {
+		notificationBubble.classList.add("hidden");
+		notifySaveText.classList.add("hidden");
+	}, 6000);
+}
+
+function showDeleteMessage() {
+	notificationBubble.classList.remove("hidden");
+	notifyDeleteText.classList.remove("hidden");
+
+	setTimeout(() => {
+		notificationBubble.classList.add("hidden");
+		notifyDeleteText.classList.add("hidden");
+	}, 6000);
+}
+
 // Save Submit
 
 const saveNewMemeBtn = select(".saveBtn");
 
 saveNewMemeBtn.addEventListener("click", e => {
-	console.log("Saving...", newMemeObj);
 	saveMemeToLocalStorage(newMemeObj);
 	resetMakeNewMemeSection();
+	showSavedMessage();
 });
 
 (function main() {
 	console.log("running...");
 	checkLocalStorageState();
+	renderAllMemes();
 })();

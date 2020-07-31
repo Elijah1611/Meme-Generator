@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>MemeME</title>
+		<title>Make A Meme | MemeME</title>
 		<link
 			href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Pacifico&display=swap"
 			rel="stylesheet"
@@ -14,8 +14,8 @@
 		<header>
 			<h1>MemeME</h1>
 			<nav>
-				<a id="newMemeBtn" href="index.html">New Meme</a>
-				<a id="allMemeBtn" href="localMemes.html">All Meme</a>
+				<button id="newMemeBtn">New Meme</button>
+				<button id="allMemesBtn">All Meme</button>
 			</nav>
 		</header>
 		<main>
@@ -24,9 +24,9 @@
 
 			<section class="newMemeSection">
 				<div class="memePreview">
-					<div>
-						<span class="memePreviewTopText"></span>
-						<span class="memePreviewBottomText"></span>
+					<div class="memePreviewText">
+						<span class="memePreviewTopText classicMemeTextStyle"></span>
+						<span class="memePreviewBottomText classicMemeTextStyle"></span>
 					</div>
 					<img
 						class="memePreviewPhoto"
@@ -80,6 +80,26 @@
 
 					<input class="saveBtn" type="submit" value="Save" />
 				</form>
+
+				<div class="notification hidden">
+					<p class="notifySaveText hidden">Meme Saved!</p>
+					<p class="notifyDeleteText hidden">Meme Deleted!</p>
+				</div>
+			</section>
+
+			<section class="allMemeSection hidden">
+				<div class="memeGallery">
+					<div class="memeGalleryImgWrapper">
+						<div class="memeGalleryImgText">
+							<span class="topText classicMemeTextStyle">TEst</span>
+							<span class="bottomText classicMemeTextStyle">Me</span>
+						</div>
+						<img
+							src="https://media.wired.com/photos/5cdefb92b86e041493d389df/1:1/w_988,h_988,c_limit/Culture-Grumpy-Cat-487386121.jpg"
+							alt=""
+						/>
+					</div>
+				</div>
 			</section>
 		</main>
 
